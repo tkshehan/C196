@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/newAssessmentButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="Add New Assessment" />
+    <item
+        android:id="@+id/courseNotesButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="Course Notes" />
+    <item
+        android:id="@+id/deleteCourseButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="Delete Course" />
+</menu>

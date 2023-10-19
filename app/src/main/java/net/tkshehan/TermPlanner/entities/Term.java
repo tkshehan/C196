@@ -12,6 +12,7 @@ public class Term {
     private int termID;
     private String title;
     private Date startDate;
+    private Date endDate;
 
     public int getTermID() {
         return termID;
@@ -41,7 +42,6 @@ public class Term {
         this.endDate = endDate;
     }
 
-    private Date endDate;
 
     public Term(int termID, String title, Date startDate, Date endDate) {
         this.termID = termID;

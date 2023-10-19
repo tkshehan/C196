@@ -8,6 +8,10 @@ import java.util.Date;
 
 @Entity
 public class Assessment {
+    public enum Type {
+        Objective,
+        Performance
+    }
     @PrimaryKey(autoGenerate = true)
     int assessmentID;
     String title;
@@ -15,11 +19,14 @@ public class Assessment {
     Date endDate;
     int courseID;
 
-    public Assessment(int assessmentID, String title, Date startDate, Date endDate, int courseID) {
+    Type type;
+
+    public Assessment(int assessmentID, String title, Date startDate, Date endDate, Type type, int courseID) {
         this.assessmentID = assessmentID;
         this.title = title;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.type = type;
         this.courseID = courseID;
     }
 
@@ -35,6 +42,9 @@ public class Assessment {
     public void setTitle(String title) {
         this.title = title;
     }
+
+    public Type getType() {return type;}
+    public void setType(Type type) {this.type = type;}
 
     public Date getStartDate() {
         return startDate;

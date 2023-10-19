@@ -7,16 +7,49 @@ import java.util.Date;
 
 @Entity
 public class Course {
+    public enum Status {
+        InProgress,
+        Completed,
+        Dropped,
+        Planned
+    }
+
+    @PrimaryKey(autoGenerate = true)
+    private int courseID;
+
+    private Status status;
+    private Date startDate;
+    private Date endDate;
+
+    private String instructor;
+    private String phone;
+    private String email;
+
+    private String notes;
+
+    private int termID;
+
+    public Course(int courseID, Status status, Date startDate, Date endDate, String instructor, String phone, String email, String notes, int termID) {
+        this.courseID = courseID;
+        this.status = status;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.instructor = instructor;
+        this.phone = phone;
+        this.email = email;
+        this.notes = notes;
+        this.termID = termID;
+    }
     public int getCourseID() {
         return courseID;
     }
 
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
@@ -73,33 +106,6 @@ public class Course {
     }
 
     public void setTermID(int termID) {
-        this.termID = termID;
-    }
-
-    @PrimaryKey(autoGenerate = true)
-    private int courseID;
-
-    private String status;
-    private Date startDate;
-    private Date endDate;
-
-    private String instructor;
-    private String phone;
-    private String email;
-
-    private String notes;
-
-    private int termID;
-
-    public Course(int courseID, String status, Date startDate, Date endDate, String instructor, String phone, String email, String notes, int termID) {
-        this.courseID = courseID;
-        this.status = status;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.instructor = instructor;
-        this.phone = phone;
-        this.email = email;
-        this.notes = notes;
         this.termID = termID;
     }
 }
