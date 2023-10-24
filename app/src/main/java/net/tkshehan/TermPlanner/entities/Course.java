@@ -1,22 +1,43 @@
 package net.tkshehan.TermPlanner.entities;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 public class Course {
     public enum Status {
-        InProgress,
-        Completed,
-        Dropped,
-        Planned
+        InProgress("In Progress"),
+        Completed("Completed"),
+        Dropped("Dropped"),
+        Planned("Planned");
+        final String name;
+        Status(String s) {
+            name = s;
+        }
+
+        public static Status valueOfName(String name) {
+            if(Objects.equals(name, "In Progress")) {
+                return InProgress;
+            } else {
+                return valueOf(name);
+            }
+        }
+
+        @NonNull
+        @Override
+        public String toString() {
+            return name;
+        }
     }
 
     @PrimaryKey(autoGenerate = true)
-    private int courseID;
+    private final int courseID;
 
+    private String title;
     private Status status;
     private Date startDate;
     private Date endDate;
@@ -29,7 +50,8 @@ public class Course {
 
     private int termID;
 
-    public Course(int courseID, Status status, Date startDate, Date endDate, String instructor, String phone, String email, String notes, int termID) {
+    public Course(int courseID, String title, Date startDate, Date endDate, Status status, String instructor, String email, String phone, int termID, String notes) {
+        this.title = title;
         this.courseID = courseID;
         this.status = status;
         this.startDate = startDate;
@@ -37,13 +59,20 @@ public class Course {
         this.instructor = instructor;
         this.phone = phone;
         this.email = email;
-        this.notes = notes;
         this.termID = termID;
+        this.notes = notes;
     }
     public int getCourseID() {
         return courseID;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     public Status getStatus() {
         return status;

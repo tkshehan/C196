@@ -1,6 +1,8 @@
 package net.tkshehan.TermPlanner.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -31,8 +33,6 @@ public class TermDetails extends AppCompatActivity {
     String title;
     Date startDate;
     Date endDate;
-    Date newStartDate;
-    Date newEndDate;
     List<Course> associatedCourses;
 
     String myFormat;
@@ -60,9 +60,7 @@ public class TermDetails extends AppCompatActivity {
         termID = getIntent().getIntExtra("termID", 0);
         title = getIntent().getStringExtra("title");
         startDate = (Date)getIntent().getSerializableExtra("startDate");
-        newStartDate = startDate;
         endDate = (Date)getIntent().getSerializableExtra("endDate");
-        newEndDate = endDate;
 
         editTitle = findViewById(R.id.termTitle);
         editTitle.setText(title);
@@ -89,7 +87,7 @@ public class TermDetails extends AppCompatActivity {
                 myCalendarStart.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
                 editStartDate.setText(sdf.format(myCalendarStart.getTime()));
-                newStartDate = myCalendarStart.getTime();
+                startDate = myCalendarStart.getTime();
             }
 
         };
@@ -120,7 +118,7 @@ public class TermDetails extends AppCompatActivity {
                 myCalendarStart.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
                 editEndDate.setText(sdf.format(myCalendarStart.getTime()));
-                newEndDate = myCalendarStart.getTime();
+                endDate = myCalendarStart.getTime();
             }
 
         };
@@ -146,7 +144,12 @@ public class TermDetails extends AppCompatActivity {
     @Override
     protected  void onResume() {
         super.onResume();
+        RecyclerView recyclerView = findViewById(R.id.coursesRecyclerView);
         associatedCourses = repository.getAssociatedCourses(termID);
+        final CourseAdapter courseAdapter = new CourseAdapter(this);
+        recyclerView.setAdapter(courseAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        courseAdapter.setCourses(associatedCourses);
     }
 
     @Override
@@ -166,7 +169,7 @@ public class TermDetails extends AppCompatActivity {
         }
         if(item.getItemId()== R.id.newCourseButton) {
             if(termID == 0) {
-                // TODO toast user to save term before adding courses
+                Toast.makeText(this, "Save before adding courses", Toast.LENGTH_SHORT).show();
             } else {
                 Intent intent = new Intent(TermDetails.this, CourseDetails.class);
                 startActivity(intent);
@@ -190,7 +193,7 @@ public class TermDetails extends AppCompatActivity {
 
     private void saveTerm() {
             Term term;
-            term = new Term(termID, editTitle.getText().toString(), newStartDate, newEndDate);
+            term = new Term(termID, editTitle.getText().toString(), startDate, endDate);
             if(termID == 0) {
                 repository.insert(term);
             } else {

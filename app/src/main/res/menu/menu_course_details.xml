@@ -2,6 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/saveCourseButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="Save Course" />
+    <item
         android:id="@+id/newAssessmentButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

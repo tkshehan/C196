@@ -14,7 +14,7 @@ import net.tkshehan.TermPlanner.entities.Assessment;
 import net.tkshehan.TermPlanner.entities.Course;
 import net.tkshehan.TermPlanner.entities.Term;
 
-@Database(entities = {Term.class, Course.class, Assessment.class}, version = 1, exportSchema = false)
+@Database(entities = {Term.class, Course.class, Assessment.class}, version = 2, exportSchema = false)
 @TypeConverters(Converters.class)
 public abstract class TermDatabaseBuilder extends RoomDatabase {
     public abstract AssessmentDao assessmentDao();
