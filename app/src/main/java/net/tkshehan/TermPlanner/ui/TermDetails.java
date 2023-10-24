@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import net.tkshehan.TermPlanner.R;
 import net.tkshehan.TermPlanner.database.Repository;
@@ -145,7 +146,7 @@ public class TermDetails extends AppCompatActivity {
     @Override
     protected  void onResume() {
         super.onResume();
-
+        associatedCourses = repository.getAssociatedCourses(termID);
     }
 
     @Override
@@ -176,9 +177,10 @@ public class TermDetails extends AppCompatActivity {
             if(termID == 0) {
                 this.finish();
             } else if(associatedCourses.size() > 0) {
-                // TODO Toast user to remove courses before deleting
+                Toast.makeText(this,"Remove all courses before deleting Term", Toast.LENGTH_LONG).show();
             } else {
-                repository.delete(new Term(termID, title, startDate, endDate));
+                Term term = new Term(termID, title, startDate, endDate);
+                repository.delete(term);
                 this.finish();
             }
             return true;
