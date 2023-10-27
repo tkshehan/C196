@@ -26,7 +26,7 @@
 
             <EditText
                 android:id="@+id/assessmentTitle"
-                android:layout_width="100dp"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content" />
         </LinearLayout>
 
@@ -40,10 +40,16 @@
                 android:layout_height="wrap_content"
                 android:text="Start Date: " />
 
-            <EditText
+            <TextView
                 android:id="@+id/assessmentStart"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content" />
+                android:layout_width="match_parent"
+                android:layout_height="45sp"
+                android:layout_weight="1"
+                android:ems="3"
+                android:gravity="center_vertical"
+                android:text="Select Date"
+                android:textAlignment="gravity"
+                android:textSize="16sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -56,10 +62,16 @@
                 android:layout_height="wrap_content"
                 android:text="End Date: " />
 
-            <EditText
+            <TextView
                 android:id="@+id/assessmentEnd"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content" />
+                android:layout_width="match_parent"
+                android:layout_height="45sp"
+                android:layout_weight="1"
+                android:ems="3"
+                android:gravity="center_vertical"
+                android:text="Select Date"
+                android:textAlignment="gravity"
+                android:textSize="16sp" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -71,10 +83,15 @@
                 android:layout_height="wrap_content"
                 android:text="Type: " />
 
-            <EditText
-                android:id="@+id/assessmentType"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content" />
+            <Spinner
+                android:id="@+id/assessmentStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="45sp"
+                android:entries="@array/assessment_status_array"
+                android:gravity="center_vertical"
+                android:spinnerMode="dropdown"
+                android:textAlignment="gravity"
+                android:textSize="14sp" />
         </LinearLayout>
 
 

@@ -1,6 +1,7 @@
 package net.tkshehan.TermPlanner.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,28 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
             super(itemView);
             courseItemView = itemView.findViewById(R.id.textView);
 
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition();
+                    final Course current = mCourses.get(position);
+                    Intent intent = new Intent(context, CourseDetails.class);
 
+                    intent.putExtra("termID", current.getTermID());
+                    intent.putExtra("courseID", current.getCourseID());
+                    intent.putExtra("title", current.getTitle());
+                    intent.putExtra("startDate", current.getStartDate());
+                    intent.putExtra("endDate", current.getEndDate());
+                    intent.putExtra("status", current.getStatus());
+
+                    intent.putExtra("instructor", current.getInstructor());
+                    intent.putExtra("email", current.getEmail());
+                    intent.putExtra("phone", current.getPhone());
+                    intent.putExtra("notes", current.getNotes());
+
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 

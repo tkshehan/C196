@@ -75,9 +75,29 @@ public class CourseDetails extends AppCompatActivity {
 
         assessmentRecyclerView = findViewById(R.id.assessmentRecyclerView);
 
-        // TODO assign from adapter
-        courseID = 0;
-        termID = 1;
+        // Assign from adapter
+        courseID = getIntent().getIntExtra("courseID", 0);
+        termID = getIntent().getIntExtra("termID", 0);
+        editTitle.setText(getIntent().getStringExtra("title"));
+        notes = getIntent().getStringExtra("notes");
+
+        editInstructorName.setText(getIntent().getStringExtra("instructor"));
+        editInstructorPhone.setText(getIntent().getStringExtra("phone"));
+        editInstructorEmail.setText(getIntent().getStringExtra("email"));
+
+        Course.Status status = (Course.Status)getIntent().getSerializableExtra("status");
+        editStatus.setSelection(status.ordinal());
+
+        startDate = (Date)getIntent().getSerializableExtra("startDate");
+        endDate = (Date)getIntent().getSerializableExtra("endDate");
+
+        if(startDate != null) {
+            editStartDate.setText(sdf.format(startDate));
+        }
+        if(endDate != null) {
+            editEndDate.setText(sdf.format(endDate));
+        }
+
 
         startDateSetListener = new DatePickerDialog.OnDateSetListener() {
 

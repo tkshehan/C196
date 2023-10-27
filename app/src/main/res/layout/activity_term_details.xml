@@ -34,7 +34,7 @@
                     android:inputType="text"
                     android:maxLines="1"
                     android:id="@+id/termTitle"
-                    android:layout_width="100dp"
+                    android:layout_width="200dp"
                     android:layout_height="wrap_content" />
             </LinearLayout>
 

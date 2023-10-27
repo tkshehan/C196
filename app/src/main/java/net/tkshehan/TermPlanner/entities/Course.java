@@ -10,10 +10,10 @@ import java.util.Objects;
 @Entity
 public class Course {
     public enum Status {
+        Planned("Planned"),
         InProgress("In Progress"),
         Completed("Completed"),
-        Dropped("Dropped"),
-        Planned("Planned");
+        Dropped("Dropped");
         final String name;
         Status(String s) {
             name = s;
