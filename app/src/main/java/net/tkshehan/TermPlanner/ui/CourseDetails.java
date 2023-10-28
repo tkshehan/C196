@@ -1,6 +1,7 @@
 package net.tkshehan.TermPlanner.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DatePickerDialog;
@@ -86,7 +87,9 @@ public class CourseDetails extends AppCompatActivity {
         editInstructorEmail.setText(getIntent().getStringExtra("email"));
 
         Course.Status status = (Course.Status)getIntent().getSerializableExtra("status");
-        editStatus.setSelection(status.ordinal());
+        if(status != null) {
+            editStatus.setSelection(status.ordinal());
+        }
 
         startDate = (Date)getIntent().getSerializableExtra("startDate");
         endDate = (Date)getIntent().getSerializableExtra("endDate");
@@ -168,7 +171,12 @@ public class CourseDetails extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // TODO Assessment adapter
+        RecyclerView recyclerView = findViewById(R.id.assessmentRecyclerView);
+        associatedAssessments = repository.getAssociatedAssessments(courseID);
+        final AssessmentAdapter assessmentAdapter = new AssessmentAdapter(this);
+        recyclerView.setAdapter(assessmentAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        assessmentAdapter.setAssessments(associatedAssessments);
     }
 
     @Override
@@ -185,6 +193,7 @@ public class CourseDetails extends AppCompatActivity {
         }
         if(item.getItemId()== R.id.saveCourseButton) {
             saveCourse();
+            Toast.makeText(this,"Saved", Toast.LENGTH_SHORT).show();
             return true;
         }
 
@@ -197,6 +206,7 @@ public class CourseDetails extends AppCompatActivity {
                 Toast.makeText(this, "Save before adding assessments", Toast.LENGTH_SHORT).show();
             } else {
                 Intent intent = new Intent(CourseDetails.this, AssessmentDetails.class);
+                intent.putExtra("courseID", courseID);
                 startActivity(intent);
             }
             return true;
@@ -205,6 +215,11 @@ public class CourseDetails extends AppCompatActivity {
             if(termID == 0) {
                 this.finish();
             } else {
+                // Delete course and assessments
+                List<Assessment> assessments = repository.getAssociatedAssessments(courseID);
+                for(Assessment assessment : assessments) {
+                    repository.delete(assessment);
+                }
                 repository.delete(getCourseFromForm());
             }
             return true;

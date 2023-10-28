@@ -165,6 +165,7 @@ public class TermDetails extends AppCompatActivity {
         }
         if(item.getItemId()== R.id.saveTermButton) {
             saveTerm();
+            Toast.makeText(this,"Saved", Toast.LENGTH_SHORT).show();
             return true;
         }
         if(item.getItemId()== R.id.newCourseButton) {
@@ -172,6 +173,7 @@ public class TermDetails extends AppCompatActivity {
                 Toast.makeText(this, "Save before adding courses", Toast.LENGTH_SHORT).show();
             } else {
                 Intent intent = new Intent(TermDetails.this, CourseDetails.class);
+                intent.putExtra("termID", termID);
                 startActivity(intent);
             }
             return true;
