@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import net.tkshehan.TermPlanner.R;
@@ -54,5 +55,10 @@ public class TermList extends AppCompatActivity {
             startActivity(intent);
         }
         return  super.onOptionsItemSelected(item);
+    }
+
+    public void newTerm(View view) {
+        Intent intent=new Intent(TermList.this, TermDetails.class);
+        startActivity(intent);
     }
 }

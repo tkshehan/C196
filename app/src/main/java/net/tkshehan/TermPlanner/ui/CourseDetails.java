@@ -4,12 +4,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -166,7 +173,7 @@ public class CourseDetails extends AppCompatActivity {
         });
 
     }
-
+    // TODO Alert when course and assessments start/end
 
     @Override
     protected void onResume() {
@@ -198,7 +205,7 @@ public class CourseDetails extends AppCompatActivity {
         }
 
         if(item.getItemId()== R.id.courseNotesButton) {
-            // TODO add notes
+            showNotes();
             return true;
         }
         if(item.getItemId()== R.id.newAssessmentButton) {
@@ -212,23 +219,77 @@ public class CourseDetails extends AppCompatActivity {
             return true;
         }
         if(item.getItemId()== R.id.deleteCourseButton) {
-            if(termID == 0) {
+            if (termID == 0) {
                 this.finish();
             } else {
                 // Delete course and assessments
                 List<Assessment> assessments = repository.getAssociatedAssessments(courseID);
-                for(Assessment assessment : assessments) {
+                for (Assessment assessment : assessments) {
                     repository.delete(assessment);
                 }
                 repository.delete(getCourseFromForm());
             }
             return true;
         }
+        if(item.getItemId()== R.id.notify) {
+            if(endDate == null || startDate == null) {
+                Toast.makeText(this, "Select a start and end date", Toast.LENGTH_SHORT).show();
+            } else {
+                notify(startDate, "Course "+ editTitle.getText().toString() + " Starting");
+                notify(endDate, "Course "+ editTitle.getText().toString() + " Ending");
+            }
+            return true;
+        }
         return  super.onOptionsItemSelected(item);
     }
 
-    private void saveCourse() {
+    private void notify(Date date, String message) {
+        Long trigger = date.getTime();
+        Intent intent = new Intent(CourseDetails.this, MyReceiver.class);
+        intent.putExtra("key", message);
+        PendingIntent sender = PendingIntent.getBroadcast(CourseDetails.this, ++MainActivity.numAlert, intent, PendingIntent.FLAG_IMMUTABLE);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
+    }
 
+    private void showNotes() {
+        Dialog builder = new Dialog(this);
+        builder.setContentView(R.layout.dialog_notes);
+        builder.show();
+        EditText editNotes = builder.findViewById(R.id.edit_notes);
+        editNotes.setText(notes);
+        Button saveNotesButton = builder.findViewById(R.id.saveNotes);
+        Button closeNotesButton = builder.findViewById(R.id.closeNotes);
+        Button shareNotesButton = builder.findViewById(R.id.shareNotes);
+
+        saveNotesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                notes = editNotes.getText().toString();
+                builder.dismiss();
+            }
+        });
+        closeNotesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                builder.dismiss();
+            }
+        });
+        shareNotesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, editNotes.getText().toString());
+                sendIntent.putExtra(Intent.EXTRA_TITLE, "Notes for " + editTitle.getText().toString());
+                sendIntent.setType("text/plain");
+                Intent shareIntent = Intent.createChooser(sendIntent, null);
+                startActivity(shareIntent);
+            }
+        });
+    }
+
+    private void saveCourse() {
         Course course = getCourseFromForm();
 
         if(courseID == 0) {

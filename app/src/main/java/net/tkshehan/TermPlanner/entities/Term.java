@@ -9,7 +9,7 @@ import java.util.Date;
 @Entity
 public class Term {
     @PrimaryKey(autoGenerate = true)
-    private int termID;
+    private final int termID;
     private String title;
     private Date startDate;
     private Date endDate;

@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">TermPlanner</string>
+    <string name="channel_name">channel name</string>
+    <string name="channel_description">channel description</string>
 
     <string-array name="course_status_array">
         <item>Planned</item>

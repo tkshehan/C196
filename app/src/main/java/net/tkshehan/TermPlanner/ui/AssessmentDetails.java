@@ -2,7 +2,11 @@ package net.tkshehan.TermPlanner.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -169,8 +173,26 @@ public class AssessmentDetails extends AppCompatActivity {
             }
             return true;
         }
+        if(item.getItemId()== R.id.notify) {
+            if(endDate == null || startDate == null) {
+                Toast.makeText(this, "Select a start and end date", Toast.LENGTH_SHORT).show();
+            } else {
+                notify(startDate, "Assessment "+ editTitle.getText().toString() + " Starting");
+                notify(endDate, "Assessment "+ editTitle.getText().toString() + "Ending");
+            }
+            return true;
+        }
 
         return  super.onOptionsItemSelected(item);
+    }
+
+    private void notify(Date date, String message) {
+        Long trigger = date.getTime();
+        Intent intent = new Intent(AssessmentDetails.this, MyReceiver.class);
+        intent.putExtra("key", message);
+        PendingIntent sender = PendingIntent.getBroadcast(AssessmentDetails.this, ++MainActivity.numAlert, intent, PendingIntent.FLAG_IMMUTABLE);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
     }
 
     private Assessment getAssessmentFromForm() {

@@ -15,10 +15,10 @@
         android:theme="@style/Theme.TermPlanner"
         tools:targetApi="31">
         <activity
-            android:label="Assessment Details"
-            android:parentActivityName=".ui.CourseDetails"
             android:name=".ui.AssessmentDetails"
-            android:exported="false" />
+            android:exported="false"
+            android:label="Assessment Details"
+            android:parentActivityName=".ui.CourseDetails" />
         <activity
             android:name=".ui.CourseDetails"
             android:exported="false"
@@ -44,6 +44,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <receiver android:name=".ui.MyReceiver"
+            android:enabled="true"
+            android:exported="true">
+
+        </receiver>
     </application>
+
 
 </manifest>
